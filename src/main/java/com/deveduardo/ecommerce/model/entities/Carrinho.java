@@ -8,25 +8,38 @@ public class Carrinho {
 
     private final List<ItemCarrinho> itens = new ArrayList<>();
 
-    public void adicionar(Produto produto,int quantidade){
-        if(quantidade <= 0) throw new IllegalArgumentException("A quantidade deve ser positiva!");
+    public void adicionar(Produto produto, int quantidade) {
+        if (quantidade <= 0) throw new IllegalArgumentException("A quantidade deve ser positiva!");
 
-        for(ItemCarrinho item: itens){
-            if(item.getProduto().getId() == produto.getId()){
+        for (ItemCarrinho item : itens) {
+            if (item.getProduto().getId() == produto.getId()) {
                 item.aumentar(quantidade);
                 return;
             }
         }
-        itens.add(new ItemCarrinho(produto,quantidade));
+        itens.add(new ItemCarrinho(produto, quantidade));
     }
 
-    public void remover(int IdProduto){
+    public void remover(int IdProduto) {
         itens.removeIf(item -> item.getProduto().getId() == IdProduto);
     }
 
-    public double getTotal(){
+    public void diminuirQuantidade(int idProduto, int quantidade) {
+        for (ItemCarrinho item : itens) {
+            if (item.getProduto().getId() == idProduto) {
+                item.diminuir(quantidade);
+                if (item.getQuantidade() == 0) {
+                    itens.remove(item);
+                }
+                return;
+            }
+        }
+        throw new IllegalArgumentException("Produto não está no carrinho");
+    }
+
+    public double getTotal() {
         double total = 0;
-        for(ItemCarrinho item: itens){
+        for (ItemCarrinho item : itens) {
             total += item.getSubtotal();
         }
         return total;
@@ -36,8 +49,12 @@ public class Carrinho {
         return Collections.unmodifiableList(itens);
     }
 
-    public boolean estaVazio() { return itens.isEmpty(); }
+    public boolean estaVazio() {
+        return itens.isEmpty();
+    }
 
-    public void limpar() { itens.clear(); }
+    public void limpar() {
+        itens.clear();
+    }
 
 }
