@@ -1,4 +1,4 @@
-package com.deveduardo.ecommerce.repository;
+package com.deveduardo.ecommerce.model.repository;
 
 import com.deveduardo.ecommerce.model.entities.Produto;
 
