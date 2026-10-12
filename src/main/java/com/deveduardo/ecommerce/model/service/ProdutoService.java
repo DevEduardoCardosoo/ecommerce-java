@@ -49,7 +49,7 @@ public class ProdutoService {
         repository.salvarTodos(produtos);
     }
 
-    private Produto buscar(List<Produto> produtos,int id){
+    static Produto buscar(List<Produto> produtos,int id){
         return produtos.stream()
                 .filter(p -> p.getId() == id)
                 .findFirst()
